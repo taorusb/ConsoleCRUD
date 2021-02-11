@@ -8,6 +8,8 @@ java -classpath ./bin com.consolecrud.Main
 
 To load data, enter the command: loadData. After each change in the app, the data is saved automatically.
 
+The first line in all files is the id counter, which is incremented after each object is added.
+
 To write data to storage files, the following recording formats are used, for all file types, the "$" sign is used.
 
 For writer.txt:
