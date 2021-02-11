@@ -22,6 +22,7 @@ public class ShowOperationHandler {
             return;
         } else if (strings.length < 3) {
             System.out.println("something is missing.");
+            return;
         }
 
         String argument = strings[2].toLowerCase();
@@ -36,7 +37,7 @@ public class ShowOperationHandler {
                     return;
                 }
 
-                operationHandler.getWriterController().showAll();
+                operationHandler.getShowWriter().showAll();
                 break;
             case "post":
 
@@ -45,7 +46,7 @@ public class ShowOperationHandler {
                     return;
                 }
 
-                operationHandler.getPostController().showByWriterId(argument.substring(9, length));
+                operationHandler.getShowPost().showByWriterId(argument.substring(9, length));
                 break;
             case "label":
 
@@ -54,7 +55,7 @@ public class ShowOperationHandler {
                     return;
                 }
 
-                operationHandler.getLabelController().showByPostId(argument.substring(7, length));
+                operationHandler.getShowLabel().showByPostId(argument.substring(7, length));
                 break;
         }
     }

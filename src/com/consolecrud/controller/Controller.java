@@ -9,6 +9,7 @@ public interface Controller {
     String successful = "successful.";
     String dataSaved = "data saved successfully.\n";
     String dataLoaded = "data loaded successfully.\n";
+    String allRight = "allRight";
 
     default boolean checkString(String s) {
         return s.matches("[\\p{L}|]+");

@@ -1,15 +1,16 @@
 package com.consolecrud.commandhandler.processingchain;
 
-import com.consolecrud.controller.LabelControllerImpl;
-import com.consolecrud.controller.PostControllerImpl;
-import com.consolecrud.controller.WriterControllerImpl;
+
+import com.consolecrud.view.ShowLabel;
+import com.consolecrud.view.ShowPost;
+import com.consolecrud.view.ShowWriter;
 
 public class OperationHandler {
 
     private ModelHandler modelHandler;
-    protected WriterControllerImpl writerController;
-    protected PostControllerImpl postController;
-    protected LabelControllerImpl labelController;
+    private ShowWriter showWriter;
+    private ShowPost showPost;
+    private ShowLabel showLabel;
 
     public OperationHandler() {
         modelHandler = new ModelHandler(this);
@@ -37,37 +38,34 @@ public class OperationHandler {
                 modelHandler.doAction(strings, operation);
                 break;
             case "loaddata":
-                writerController.loadData();
-                break;
-            case "savedata":
-                writerController.saveData();
+                showWriter.loadData();
                 break;
             default:
                 System.out.println("wrong command: " + strings[0]);
         }
     }
 
-    public void setWriterController(WriterControllerImpl writerController) {
-        this.writerController = writerController;
+    public void setShowWriter(ShowWriter showWriter) {
+        this.showWriter = showWriter;
     }
 
-    public void setPostController(PostControllerImpl postController) {
-        this.postController = postController;
+    public void setShowPost(ShowPost showPost) {
+        this.showPost = showPost;
     }
 
-    public void setLabelController(LabelControllerImpl labelController) {
-        this.labelController = labelController;
+    public void setShowLabel(ShowLabel showLabel) {
+        this.showLabel = showLabel;
     }
 
-    public WriterControllerImpl getWriterController() {
-        return writerController;
+    public ShowWriter getShowWriter() {
+        return showWriter;
     }
 
-    public PostControllerImpl getPostController() {
-        return postController;
+    public ShowPost getShowPost() {
+        return showPost;
     }
 
-    public LabelControllerImpl getLabelController() {
-        return labelController;
+    public ShowLabel getShowLabel() {
+        return showLabel;
     }
 }

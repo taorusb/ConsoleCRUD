@@ -4,82 +4,88 @@ import static java.lang.Long.parseLong;
 
 import com.consolecrud.model.Label;
 import com.consolecrud.model.Post;
-import com.consolecrud.repository.LabelRepositoryImpl;
-import com.consolecrud.repository.PostRepositoryImpl;
-import com.consolecrud.view.ShowLabel;
+import com.consolecrud.repository.io.JavaIOLabelRepositoryImpl;
+import com.consolecrud.repository.io.JavaIOPostRepositoryImpl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class LabelControllerImpl implements Controller {
 
-    private LabelRepositoryImpl labelRepository;
-    private PostRepositoryImpl postRepository;
-    private ShowLabel showLabel = new ShowLabel();
+    private JavaIOLabelRepositoryImpl labelRepository;
+    private JavaIOPostRepositoryImpl postRepository;
+    private List<Label> labels;
 
-    public void showByPostId(String postId) {
+    public LabelControllerImpl() {
+    }
 
-        if (!checkId(postId)) {
-            showLabel.printMessage(idError);
-            return;
+    public String showByPostId(String id) {
+
+        if (!checkId(id)) {
+            return idError;
         }
 
         try {
-            showLabel.showAll(postRepository.getById(parseLong(postId)).getLabels());
+            labels = postRepository.getById(parseLong(id)).getLabels();
         } catch (NoSuchElementException e) {
-            showLabel.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return allRight;
     }
 
-    public void addNewLabel(String postId, String name) {
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public String addNewLabel(String postId, String name) {
 
         if (!checkId(postId)) {
-            showLabel.printMessage(idError);
+            return idError;
         }
 
         try {
             Post post = postRepository.getById(parseLong(postId));
             post.addLabel(labelRepository.save(new Label(name)));
-            showLabel.printMessage(successful);
+            postRepository.saveData();
         } catch (NoSuchElementException e) {
-            showLabel.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void updateLabel(String id, String name) {
+    public String updateLabel(String id, String name) {
 
         if (!checkId(id)) {
-            showLabel.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             labelRepository.update(new Label(parseLong(id), name));
-            showLabel.printMessage(successful);
         } catch (NoSuchElementException e) {
-            showLabel.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void deleteLabel(String id) {
+    public String deleteLabel(String id) {
 
         if (!checkId(id)) {
-            showLabel.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             labelRepository.deleteById(parseLong(id));
-            showLabel.printMessage(successful);
         } catch (NoSuchElementException e) {
-            showLabel.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void setLabelRepository(LabelRepositoryImpl labelRepository) {
+    public void setLabelRepository(JavaIOLabelRepositoryImpl labelRepository) {
         this.labelRepository = labelRepository;
     }
 
-    public void setPostRepository(PostRepositoryImpl postRepository) {
+    public void setPostRepository(JavaIOPostRepositoryImpl postRepository) {
         this.postRepository = postRepository;
     }
 }

@@ -68,7 +68,7 @@ public class UpdateOperationHandler {
         arg2 = writerFirstName.substring(10, writerFirstNameLength);
         arg3 = writerLastName.substring(9, writerLastNameLength);
 
-        operationHandler.getWriterController().updateWriter(arg1, arg2, arg3);
+        operationHandler.getShowWriter().updateWriter(arg1, arg2, arg3);
     }
 
     private void checkPostField(String postId, String postContent) {
@@ -89,9 +89,9 @@ public class UpdateOperationHandler {
         }
 
         arg1 = arg1.substring(3, postIdLength);
-        arg2 = arg2.substring(8, postContentLength);
+        arg2 = postContent.substring(8, postContentLength);
 
-        operationHandler.getPostController().updatePost(arg1, arg2);
+        operationHandler.getShowPost().updatePost(arg1, arg2);
     }
 
     private void checkLabelField(String labelId, String labelName) {
@@ -114,6 +114,6 @@ public class UpdateOperationHandler {
         arg1 = arg1.substring(3, labelIdLength);
         arg2 = arg2.substring(5, nameLength);
 
-        operationHandler.getLabelController().updateLabel(arg1, arg2);
+        operationHandler.getShowLabel().updateLabel(arg1, arg2);
     }
 }

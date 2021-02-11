@@ -1,0 +1,6 @@
+5
+1$childhood
+2$cool
+3$baby
+4$wonderful
+5$scary

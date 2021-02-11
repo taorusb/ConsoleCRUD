@@ -4,13 +4,14 @@ import com.consolecrud.commandhandler.CommandHandler;
 import com.consolecrud.controller.LabelControllerImpl;
 import com.consolecrud.controller.PostControllerImpl;
 import com.consolecrud.controller.WriterControllerImpl;
-import com.consolecrud.repository.LabelRepositoryImpl;
-import com.consolecrud.repository.PostRepositoryImpl;
-import com.consolecrud.repository.WriterRepositoryImpl;
+import com.consolecrud.repository.io.JavaIOLabelRepositoryImpl;
+import com.consolecrud.repository.io.JavaIOPostRepositoryImpl;
+import com.consolecrud.repository.io.JavaIOWriterRepositoryImpl;
+import com.consolecrud.view.ShowLabel;
+import com.consolecrud.view.ShowPost;
+import com.consolecrud.view.ShowWriter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
 
@@ -20,23 +21,24 @@ public class Main {
         String inputQuery;
 
         WriterControllerImpl writerController = new WriterControllerImpl();
-        writerController.setWriterRepository(WriterRepositoryImpl.getWriterRepository());
-        WriterRepositoryImpl.getWriterRepository().setPostRepository(PostRepositoryImpl.getPostRepository());
-        PostRepositoryImpl.getPostRepository().setLabelRepository(LabelRepositoryImpl.getLabelRepository());
-        LabelRepositoryImpl.getLabelRepository().setPostRepository(PostRepositoryImpl.getPostRepository());
+        writerController.setWriterRepository(JavaIOWriterRepositoryImpl.getWriterRepository());
+        JavaIOWriterRepositoryImpl.getWriterRepository().setPostRepository(JavaIOPostRepositoryImpl.getPostRepository());
+        JavaIOPostRepositoryImpl.getPostRepository().setLabelRepository(JavaIOLabelRepositoryImpl.getLabelRepository());
+        JavaIOLabelRepositoryImpl.getLabelRepository().setPostRepository(JavaIOPostRepositoryImpl.getPostRepository());
 
         PostControllerImpl postController = new PostControllerImpl();
-        postController.setPostRepository(PostRepositoryImpl.getPostRepository());
-        postController.setWriterRepository(WriterRepositoryImpl.getWriterRepository());
+        postController.setPostRepository(JavaIOPostRepositoryImpl.getPostRepository());
+        postController.setWriterRepository(JavaIOWriterRepositoryImpl.getWriterRepository());
 
         LabelControllerImpl labelController = new LabelControllerImpl();
-        labelController.setLabelRepository(LabelRepositoryImpl.getLabelRepository());
-        labelController.setPostRepository(PostRepositoryImpl.getPostRepository());
+        labelController.setLabelRepository(JavaIOLabelRepositoryImpl.getLabelRepository());
+        labelController.setPostRepository(JavaIOPostRepositoryImpl.getPostRepository());
 
         CommandHandler commandHandler = CommandHandler.getCommandHandler();
-        commandHandler.setWriterController(writerController);
-        commandHandler.setPostController(postController);
-        commandHandler.setLabelController(labelController);
+        commandHandler.setShowWriter(new ShowWriter(writerController));
+        commandHandler.setShowPost(new ShowPost(postController));
+        commandHandler.setShowLabel(new ShowLabel(labelController));
+
 
         while (true) {
             inputQuery = reader.readLine();

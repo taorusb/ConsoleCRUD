@@ -4,83 +4,86 @@ import static java.lang.Long.parseLong;
 
 import com.consolecrud.model.Post;
 import com.consolecrud.model.Writer;
-import com.consolecrud.repository.PostRepositoryImpl;
-import com.consolecrud.repository.WriterRepositoryImpl;
-import com.consolecrud.view.ShowPost;
+import com.consolecrud.repository.io.JavaIOPostRepositoryImpl;
+import com.consolecrud.repository.io.JavaIOWriterRepositoryImpl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class PostControllerImpl implements Controller {
 
-    private WriterRepositoryImpl writerRepository;
-    private PostRepositoryImpl postRepository;
-    private ShowPost showPost = new ShowPost();
+    private JavaIOWriterRepositoryImpl writerRepository;
+    private JavaIOPostRepositoryImpl postRepository;
+    private List<Post> posts;
 
-    public void showByWriterId(String writerId) {
+    public String showByWriterId(String id) {
 
-        if (!checkId(writerId)) {
-            showPost.printMessage(idError);
-            return;
+        if (!checkId(id)) {
+            return idError;
         }
 
         try {
-            showPost.showAll(writerRepository.getById(parseLong(writerId)).getPosts());
+            posts = writerRepository.getById(parseLong(id)).getPosts();
         } catch (NoSuchElementException e) {
-            showPost.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return allRight;
     }
 
-    public void addNewPost(String writerId, String content) {
+    public List<Post> getList() {
+        return posts;
+    }
+
+    public String addNewPost(String writerId, String content) {
 
         if (!checkId(writerId)) {
-            showPost.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             Writer writer = writerRepository.getById(parseLong(writerId));
             writer.addPost(postRepository.save(new Post(content)));
-            showPost.printMessage(successful);
+
+            writerRepository.saveData();
         } catch (NoSuchElementException e) {
-            showPost.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void updatePost(String id, String content) {
+    public String updatePost(String id, String content) {
 
         if (!checkId(id)) {
-            showPost.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             postRepository.update(new Post(parseLong(id), content));
-            showPost.printMessage(successful);
         } catch (NoSuchElementException e) {
-            showPost.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void deletePost(String id) {
+    public String deletePost(String id) {
 
         if (!checkId(id)) {
-            showPost.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             postRepository.deleteById(parseLong(id));
-            showPost.printMessage(successful);
         } catch (NoSuchElementException e) {
-            showPost.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void setWriterRepository(WriterRepositoryImpl writerRepository) {
+    public void setWriterRepository(JavaIOWriterRepositoryImpl writerRepository) {
         this.writerRepository = writerRepository;
     }
 
-    public void setPostRepository(PostRepositoryImpl postRepository) {
+    public void setPostRepository(JavaIOPostRepositoryImpl postRepository) {
         this.postRepository = postRepository;
     }
 }

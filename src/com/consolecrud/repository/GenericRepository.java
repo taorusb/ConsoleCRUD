@@ -1,4 +1,4 @@
-package com.consolecrud.repository.intrerfaces;
+package com.consolecrud.repository;
 
 public interface GenericRepository<T, ID extends Number> {
 

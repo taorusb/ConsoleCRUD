@@ -11,6 +11,4 @@ public interface Show<T> {
     OutputStreamWriter writer = new OutputStreamWriter(System.out);
     PrintWriter printWriter = new PrintWriter(writer, true);
 
-    void printMessage(String message);
-    void showAll(List<T> list);
 }

@@ -3,81 +3,72 @@ package com.consolecrud.controller;
 import static java.lang.Long.parseLong;
 
 import com.consolecrud.model.Writer;
-import com.consolecrud.repository.WriterRepositoryImpl;
-import com.consolecrud.view.ShowWriter;
+import com.consolecrud.repository.io.JavaIOWriterRepositoryImpl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class WriterControllerImpl implements Controller {
 
-    private WriterRepositoryImpl writerRepository;
-    private final ShowWriter showWriter = new ShowWriter();
+    private JavaIOWriterRepositoryImpl writerRepository;
 
     public WriterControllerImpl() {
     }
 
-    public void showAll() {
-        showWriter.showAll(writerRepository.findAll());
+    public List<Writer> showAll() {
+        return writerRepository.findAll();
     }
 
-    public void addNewWriter(String firstName, String lastName) {
+    public String addNewWriter(String firstName, String lastName) {
 
         if (!checkString(firstName) || !checkString(lastName)) {
-            showWriter.printMessage(nameError);
-            return;
+            return nameError;
         }
 
         writerRepository.save(new Writer(firstName, lastName));
 
-        showAll();
+        return successful;
     }
 
-    public void updateWriter(String id, String firstName, String lastName) {
+    public String updateWriter(String id, String firstName, String lastName) {
 
         if (!checkId(id)) {
-            showWriter.printMessage(idError);
-            return;
+            return idError;
         }
 
         if (!checkString(firstName) || !checkString(lastName)) {
-            showWriter.printMessage(nameError);
-            return;
+            return nameError;
         }
 
         try {
             writerRepository.update(new Writer(parseLong(id), firstName, lastName));
             showAll();
         } catch (NoSuchElementException e) {
-            showWriter.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void deleteWriter(String id) {
+    public String deleteWriter(String id) {
 
         if (!checkId(id)) {
-            showWriter.printMessage(idError);
-            return;
+            return idError;
         }
 
         try {
             writerRepository.deleteById(parseLong(id));
-            showAll();
         } catch (NoSuchElementException e) {
-            showWriter.printMessage(elementNotFoundError);
+            return elementNotFoundError;
         }
+        return successful;
     }
 
-    public void loadData() {
+    public String loadData() {
         writerRepository.loadData();
-        showWriter.printMessage(dataLoaded);
+        return dataLoaded;
     }
 
-    public void saveData() {
-        writerRepository.saveData();
-        showWriter.printMessage(dataSaved);
-    }
-
-    public void setWriterRepository(WriterRepositoryImpl writerRepository) {
+    public void setWriterRepository(JavaIOWriterRepositoryImpl writerRepository) {
         this.writerRepository = writerRepository;
     }
 }

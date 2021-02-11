@@ -25,6 +25,7 @@ public class DeleteOperationHandler {
             return;
         } else if (strings.length < 3) {
             System.out.println("something is missing.");
+            return;
         }
 
         if (!strings[2].startsWith("id=")) {
@@ -38,15 +39,15 @@ public class DeleteOperationHandler {
         switch (model) {
             case "writer":
                 arg = strings[2].substring(3, length);
-                operationHandler.getWriterController().deleteWriter(arg);
+                operationHandler.getShowWriter().deleteWriter(arg);
                 break;
             case "post":
                 arg = strings[2].substring(3, length);
-                operationHandler.getPostController().deletePost(arg);
+                operationHandler.getShowPost().deletePost(arg);
                 break;
             case "label":
                 arg = strings[2].substring(3, length);
-                operationHandler.getLabelController().deleteLabel(arg);
+                operationHandler.getShowLabel().deleteLabel(arg);
                 break;
         }
     }

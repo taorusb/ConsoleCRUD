@@ -47,18 +47,18 @@ public class AddOperationHandler {
         String arg2 = writerLastName.toLowerCase();
 
         if (!arg1.startsWith("firstname=")) {
-            System.out.println("invalid argument name: " + firstNameLength);
+            System.out.println("invalid argument name: " + writerFirstName);
             return;
         }
         if (!arg2.startsWith("lastname=")) {
-            System.out.println("invalid argument name: " + lastNameLength);
+            System.out.println("invalid argument name: " + writerLastName);
             return;
         }
 
         arg1 = writerFirstName.substring(10, firstNameLength);
         arg2 = writerLastName.substring(9, lastNameLength);
 
-        operationHandler.getWriterController().addNewWriter(arg1, arg2);
+        operationHandler.getShowWriter().addWriter(arg1, arg2);
     }
 
     private void checkPostField(String writerId, String postContent) {
@@ -80,7 +80,7 @@ public class AddOperationHandler {
         arg1 = arg1.substring(9, writerIdLength);
         arg2 = postContent.substring(8, postContentLength);
 
-        operationHandler.getPostController().addNewPost(arg1, arg2);
+        operationHandler.getShowPost().addPost(arg1, arg2);
     }
 
     private void checkLabelField(String postId, String labelName) {
@@ -103,6 +103,6 @@ public class AddOperationHandler {
         arg1 = arg1.substring(7, postIdLength);
         arg2 = labelName.substring(5, nameLength);
 
-        operationHandler.getLabelController().addNewLabel(arg1, arg2);
+        operationHandler.getShowLabel().addLabel(arg1, arg2);
     }
 }

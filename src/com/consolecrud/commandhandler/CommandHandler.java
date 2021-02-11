@@ -4,6 +4,9 @@ import com.consolecrud.commandhandler.processingchain.OperationHandler;
 import com.consolecrud.controller.LabelControllerImpl;
 import com.consolecrud.controller.PostControllerImpl;
 import com.consolecrud.controller.WriterControllerImpl;
+import com.consolecrud.view.ShowLabel;
+import com.consolecrud.view.ShowPost;
+import com.consolecrud.view.ShowWriter;
 
 public class CommandHandler {
 
@@ -25,15 +28,15 @@ public class CommandHandler {
         operationHandler.doAction(command);
     }
 
-    public void setWriterController(WriterControllerImpl writerController) {
-        operationHandler.setWriterController(writerController);
+    public void setShowWriter(ShowWriter showWriter) {
+        operationHandler.setShowWriter(showWriter);
     }
 
-    public void setPostController(PostControllerImpl postController) {
-        operationHandler.setPostController(postController);
+    public void setShowPost(ShowPost showPost) {
+        operationHandler.setShowPost(showPost);
     }
 
-    public void setLabelController(LabelControllerImpl labelController) {
-        operationHandler.setLabelController(labelController);
+    public void setShowLabel(ShowLabel showLabel) {
+        operationHandler.setShowLabel(showLabel);
     }
 }
